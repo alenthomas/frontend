@@ -35,7 +35,7 @@ export const editUserQuery = (username, password) => (
 
 export const editUserDetailsQuery = (username, place, doc_id) => (
   gql`mutation {
-    editUserDetails(username: "${username}" place: "${place} doc_id: "${doc_id})
+    editUserDetails(username: "${username}" place: "${place}" doc_id: "${doc_id}")
     {
       success
       info
@@ -51,6 +51,17 @@ export const removeUserDetailsQuery = (username) => (
       success
       info
       user_details { place doc_id }
+    }
+  }`
+)
+
+export const readUserDetailsQuery = (username) => (
+  gql`query {
+    readUserDetails(username: "${username}")
+    {
+      success
+      info
+      user_details { place doc_id}
     }
   }`
 )

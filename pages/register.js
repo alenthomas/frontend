@@ -20,8 +20,8 @@ export class Register extends Component {
           this.handleResponse();
         })
       .catch(err => {
-        console.error('Login API failed: ', err);
-        this.setState({loading: false, info: 'Error logging in', success: false});
+        console.error('Register API failed: ', err);
+        this.setState({loading: false, info: 'Error registering new user', success: false});
       });
   }
 

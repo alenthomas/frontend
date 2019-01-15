@@ -4,7 +4,8 @@ import {
   registerQuery, 
   editUserQuery, 
   editUserDetailsQuery, 
-  removeUserDetailsQuery
+  removeUserDetailsQuery,
+  readUserDetailsQuery
 } from './gqlQueries';
 
 export const loginGQL = (username, password) => {
@@ -33,6 +34,12 @@ export const editUserDetailsGQL = (username, place, doc_id) => {
 
 export const removeUserDetailsGQL = (username) => {
   let queryString = stringify(removeUserDetailsQuery(username))
+  let data = formatData(queryString);
+  return fetchWrapper(data);
+}
+
+export const readUserDetailsGQL = (username) => {
+  let queryString = stringify(readUserDetailsQuery(username))
   let data = formatData(queryString);
   return fetchWrapper(data);
 }

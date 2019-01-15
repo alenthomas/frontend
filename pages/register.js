@@ -1,11 +1,34 @@
-import {Component} from 'react';
-import {CustomHead} from '../components/head';
+import { Component } from 'react';
+import { CustomHead } from '../components/head';
+import { registerGQL } from '../services/gqlClient';
+import { Popup } from '../components/popup';
+import { Loading } from '../components/loading';
+
 import './register.scss';
 
 export class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''}
+    this.state = {username: '', password: '', success: '', info: '', user: null, loading: false};
+  }
+
+  registerRequest = () => {
+    registerGQL(this.state.username, this.state.password)
+      .then(response => {
+          let {data: {register: {success, info, user}}} = response;
+          this.setState({success, info, user, loading: false});
+          this.handleResponse();
+        })
+      .catch(err => {
+        console.error('Login API failed: ', err);
+        this.setState({loading: false, info: 'Error logging in', success: false});
+      });
+  }
+
+  handleResponse = () => {
+    if(this.state.success) {
+      setTimeout(() => this.redirect(`/user?username=${this.state.user.username}`), 1000);
+    }
   }
 
   onUsernameChange = (e) => {
@@ -18,14 +41,20 @@ export class Register extends Component {
   }
 
   onSubmit = () => {
-    // make api call;
+    this.setState({loading: true})
+    this.registerRequest();
+  }
+
+  redirect = (url) => {
+    window.location = url;
   }
 
   render () {
-    // console.log(this.state);
     return (
       <div>
         <CustomHead />
+        { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+        <Loading show={this.state.loading}/>
         <h3>Register here</h3>
         <div className='register'>
           <label htmlFor='username'>Username: </label>

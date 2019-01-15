@@ -73,18 +73,19 @@ export class Edit extends Component {
     return (
       <div>
         <CustomHead />
-        { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
-        <Loading show={this.state.loading}/>
-        <h3>Hello {username}</h3>
-        <h3>Edit Details: </h3>
-		    <div className='user_details'>
-		      <label htmlFor='place'>Place: </label>
-		      <input type='text' name='place' value={this.state.place || ''} onChange={this.onPlaceChange} />
-		      <label htmlFor='doc_id'>Doc ID: </label>
-		      <input type='text' name='doc_id' value={this.state.doc_id || ''} onChange={this.onDocChange} />
-		      <br />
-		      <button onClick={this.onSubmit}>Update</button>
-		    </div>
+        <div className='container'>
+          { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+          <Loading show={this.state.loading}/>
+          <h3>Hello <em>{username}</em></h3>
+          <h5>Edit Details: </h5>
+		      <div className='user_details'>
+		        <label htmlFor='place'>Place: </label>
+		        <input type='text' name='place' value={place || ''} onChange={this.onPlaceChange} />
+		        <label htmlFor='doc_id'>Doc ID: </label>
+		        <input type='text' name='doc_id' value={doc_id || ''} onChange={this.onDocChange} />
+		        <button onClick={this.onSubmit}>Update</button>
+		      </div>
+        </div>
       </div>
     )
   }

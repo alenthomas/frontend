@@ -35,12 +35,12 @@ export class Login extends Component {
     let username = e.target.value;
     this.setState({username});
   }
-  
+
   onPasswordChange = (e) => {
     let password = e.target.value;
     this.setState({password});
   }
-  
+
   onSubmit = () => {
     this.setState({loading: true})
     this.loginRequest();
@@ -49,26 +49,28 @@ export class Login extends Component {
   redirect = (url) => {
     window.location = url;
   }
-  
+
   render () {
     return (
       <div>
 		    <CustomHead />
-        { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
-        <Loading show={this.state.loading}/>
-		    <h3>Login here</h3>
-		    <div className='login'>
-		      <label htmlFor='username'>Username: </label>
-		      <input type='text' name='username' value={this.state.username} onChange={this.onUsernameChange} />
-		      <label htmlFor='password'>Password: </label>
-		      <input type='password' name='password' value={this.state.password} onChange={this.onPasswordChange} />
-		      <br />
-		      <button onClick={this.onSubmit}>Login</button>
-		    </div>
+        <div className='container'>
+          { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+          <Loading show={this.state.loading}/>
+		      <h3>Login here</h3>
+		      <div className='login'>
+		        <label htmlFor='username'>Username: </label>
+		        <input type='text' name='username' value={this.state.username} onChange={this.onUsernameChange} />
+		        <label htmlFor='password'>Password: </label>
+		        <input type='password' name='password' value={this.state.password} onChange={this.onPasswordChange} />
+		        <br />
+		        <button onClick={this.onSubmit}>Login</button>
+		      </div>
+        </div>
 	    </div>
 	  )
   }
 };
 
 export default Login;
-       
+

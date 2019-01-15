@@ -44,15 +44,17 @@ export class User extends Component {
     return (
       <div>
         <CustomHead />
-        { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
-        <Loading show={this.state.loading}/>
-        <h3>Hello {username}</h3>
-        <div className='user_details'>
-          <div>Place: {place}</div>
-          <div>Doc_id: {doc_id}</div>
+        <div className='container'>
+          { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+          <Loading show={this.state.loading}/>
+          <h3>Hello <em>{username}</em></h3>
+          <div className='user_details'>
+            <h5>Place: <em>{place}</em></h5>
+            <h5>Doc_id: <em>{doc_id}</em></h5>
+          </div>
+          <button className='button button-primary'onClick={() => this.redirect(`/edit?username=${username}`)}>Edit</button>
+          <button className='button' onClick={() => this.redirect(`/delete?username=${username}`)}>Delete</button>
         </div>
-        <button className='button button-primary'onClick={() => this.redirect(`/edit?username=${username}`)}>Edit</button>
-        <button className='button button-danger' onClick={() => this.redirect(`/delete?username=${username}`)}>Delete</button>
       </div>
     )
   }

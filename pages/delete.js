@@ -57,17 +57,20 @@ export class Delete extends Component {
     return (
       <div>
         <CustomHead />
-        { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
-        <Loading show={this.state.loading}/>
-        <h3>Hello {username}</h3>
-        <div className='user_details'>
-          <div>Place: {place}</div>
-          <div>Doc_id: {doc_id}</div>
+        <div className='container'>
+          { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+          <Loading show={this.state.loading}/>
+          <h3>Hello <em>{username}</em></h3>
+          <h5>Your Details: </h5>
+          <div className='user_details'>
+            <h5>Place: <em>{place}</em></h5>
+            <h5>Doc_id: <em>{doc_id}</em></h5>
+          </div>
+          <div>
+            Are you sure you want to delete the user details ?
+          </div>
+          <button className='button button-danger' onClick={this.deleteRequest}>Confirm</button>
         </div>
-        <div>
-          Are you sure you want to delete the user details ?
-        </div>
-        <button className='button button-danger' onClick={this.deleteRequest}>Delete</button>
       </div>
     )
   }

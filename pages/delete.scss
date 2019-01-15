@@ -1,0 +1,8 @@
+.container {
+  .button {
+    &.button-danger {
+      background-color: #d43f3a;
+      color: white;
+    }
+  }
+}

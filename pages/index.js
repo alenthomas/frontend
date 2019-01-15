@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { CustomHead } from '../components/head';
 
+import './index.scss';
+
  export class Welcome extends Component {
    navigate = (url) => {
      window.location = url;
@@ -9,9 +11,12 @@ import { CustomHead } from '../components/head';
      return (
        <div>
          <CustomHead />
-         <h3>Welcome to landing page</h3>
-         <div onClick={() => this.navigate('/login')}>Login here</div>
-         <div onClick={() => this.navigate('/register')}>Register here</div>
+         <div className='container'>
+           <div className='row'><div className='two column'></div></div>
+           <h3>Welcome to landing page</h3>
+           <button onClick={() => this.navigate('/login')}>Login here</button>
+           <button onClick={() => this.navigate('/register')}>Register here</button>
+         </div>
        </div>
      )
    }

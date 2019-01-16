@@ -20,7 +20,7 @@ export const registerQuery = (username, password) => (
       user { username }
     }
   }`
-)
+);
 
 export const editUserQuery = (username, password) => (
   gql`mutation {
@@ -31,7 +31,7 @@ export const editUserQuery = (username, password) => (
       user { username }
     }
   }`
-)
+);
 
 export const editUserDetailsQuery = (username, place, doc_id) => (
   gql`mutation {
@@ -42,7 +42,7 @@ export const editUserDetailsQuery = (username, place, doc_id) => (
       user_details { place doc_id }
     }
   }`
-)
+);
 
 export const removeUserDetailsQuery = (username) => (
   gql`mutation {
@@ -53,7 +53,7 @@ export const removeUserDetailsQuery = (username) => (
       user_details { place doc_id }
     }
   }`
-)
+);
 
 export const readUserDetailsQuery = (username) => (
   gql`query {
@@ -64,4 +64,26 @@ export const readUserDetailsQuery = (username) => (
       user_details { place doc_id}
     }
   }`
-)
+);
+
+export  const getDocDetailsQuery = (username) => (
+  gql`query {
+    getDoc(username: "${username}")
+    {
+      success
+      info
+      doc_details { username type file}
+    }
+  }`
+);
+
+export const uploadDocQuery = (username, type, file) => (
+  gql`mutation {
+    uploadDoc(username: "${username}" type: "${type}" file: "${file}")
+    {
+      success
+      info
+      doc_details { username, type, file }
+    }
+  }`
+);

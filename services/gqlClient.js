@@ -5,7 +5,9 @@ import {
   editUserQuery, 
   editUserDetailsQuery, 
   removeUserDetailsQuery,
-  readUserDetailsQuery
+  readUserDetailsQuery,
+  getDocDetailsQuery,
+  uploadDocQuery
 } from './gqlQueries';
 
 export const loginGQL = (username, password) => {
@@ -40,6 +42,18 @@ export const removeUserDetailsGQL = (username) => {
 
 export const readUserDetailsGQL = (username) => {
   let queryString = stringify(readUserDetailsQuery(username))
+  let data = formatData(queryString);
+  return fetchWrapper(data);
+}
+
+export const getDocDetailsGQL = (username) => {
+  let queryString = stringify(getDocDetailsQuery(username));
+  let data = formatData(queryString);
+  return fetchWrapper(data);
+}
+
+export const uploadDocGQL = (username, type, file) => {
+  let queryString = stringify(uploadDocQuery(username, type, file));
   let data = formatData(queryString);
   return fetchWrapper(data);
 }

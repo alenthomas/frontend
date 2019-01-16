@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { CustomHead } from '../components/head';
-import { readUserDetailsGQL } from '../services/gqlClient';
+import { readUserDetailsGQL, getDocDetailsGQL } from '../services/gqlClient';
 import { Popup } from '../components/popup';
 import { Loading } from '../components/loading';
 
@@ -14,23 +14,44 @@ export class User extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {success: '', info: '', user_details: {place: '', doc_id: ''}, loading: false};
+    this.state = {
+      user: {
+        success: '', info: '', user_details: {place: '', doc_id: ''}
+      }, 
+      doc: {
+        success: '', info: '', doc_details: {username: '', file: '', type: ''},
+      },
+      loading: false
+    };
   }
 
   componentDidMount() {
     this.setState({loading: true});
-    this.readUserDetailsRequest()
+    this.readUserDetailsRequest();
+    this.getDocDetailsRequest();
+  }
+
+  getDocDetailsRequest = () => {
+    getDocDetailsGQL(this.props.username)
+      .then(response => {
+        let {data: {getDoc: {success, info, doc_details}}} = response;
+        this.setState({doc: {success, info,  doc_details}, loading: false});
+      })
+      .catch(err => {
+        console.error('getDocDetails API failed: ', err);
+        this.setState({doc: {success: false, info: 'Error reading doc details'}, loading: false});
+      })
   }
 
   readUserDetailsRequest = () => {
     readUserDetailsGQL(this.props.username)
       .then(response => {
           let {data: {readUserDetails: {success, info, user_details}}} = response;
-          this.setState({success, info, user_details, loading: false});
+          this.setState({user: {success, info, user_details}, loading: false});
         })
       .catch(err => {
         console.error('readUserDetails API failed: ', err);
-        this.setState({loading: false, info: 'Error reading user details', success: false});
+        this.setState({doc: {success: false, info: 'Error reading user details'}, loading: false});
       });
   }
 
@@ -38,19 +59,41 @@ export class User extends Component {
     window.location = url;
   }
 
+  renderPopUp(user, doc) {
+    if(user.info) {
+      return (
+        <Popup category={this.state.user.success ? 'info': 'error'} msg={this.state.user.info} />
+      )
+    }
+    if(doc.info) {
+      return (
+        <Popup category={this.state.doc.success ? 'info': 'error'} msg={this.state.doc.info} />
+      )
+    }
+    return null;
+  }
+
   render () {
-    let {place, doc_id} = this.state.user_details;
+    let {user, doc} = this.state;
+    let {place, doc_id} = user.user_details;
+    let {file, type} = doc.doc_details;
     let {username} = this.props;
     return (
       <div>
         <CustomHead />
         <div className='container'>
-          { this.state.info ? <Popup category={this.state.success ? 'info': 'error'} msg={this.state.info} /> : null}
+          {this.renderPopUp(user, doc)}
           <Loading show={this.state.loading}/>
           <h3>Hello <em>{username}</em></h3>
           <div className='user_details'>
-            <h5>Place: <em>{place}</em></h5>
-            <h5>Doc_id: <em>{doc_id}</em></h5>
+            <h4>Place: <em>{place}</em></h4>
+            <div className='doc'>
+              <h4>Document:</h4>
+              <div className='fields'>
+                <h5>Doc type: <em>{type}</em></h5>
+                <h5>Doc: {file? <a href={file} target='_blank' download>download</a>: null}</h5>
+              </div>
+            </div>
           </div>
           <button className='button button-primary'onClick={() => this.redirect(`/edit?username=${username}`)}>Edit</button>
           <button className='button' onClick={() => this.redirect(`/delete?username=${username}`)}>Delete</button>

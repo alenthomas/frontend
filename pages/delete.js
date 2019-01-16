@@ -64,10 +64,9 @@ export class Delete extends Component {
           <h5>Your Details: </h5>
           <div className='user_details'>
             <h5>Place: <em>{place}</em></h5>
-            <h5>Doc_id: <em>{doc_id}</em></h5>
           </div>
           <div>
-            Are you sure you want to delete the user details ?
+            Are you sure you want to delete the user details including docs ?
           </div>
           <button className='button button-danger' onClick={this.deleteRequest}>Confirm</button>
         </div>
